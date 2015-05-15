@@ -1,3 +1,4 @@
+(function() { 
 'use strict';
 
 var path = require('path'),
@@ -13,11 +14,11 @@ describe('Dependency scanning:', function () {
   describe('npmPackageCheckIf', function () {
     var arinPluginPackageJsonPath = path.join(testDataDir, '/node_modules/arin-plugin/package');
     it('should return true if a PackageJson has a keyword', function () {
-      (checkIf.packageJson(arinPluginPackageJsonPath).has.keyword('arin-plugin')).should.be.true;
+      (checkIf.packageJson(arinPluginPackageJsonPath).has.keyword('arin-plugin')).should.be.equal(true);
     });
 
     it('should return false if a PackageJson has not a keyword', function () {
-      (checkIf.packageJson(arinPluginPackageJsonPath).has.keyword('wontfound')).should.be.false;
+      (checkIf.packageJson(arinPluginPackageJsonPath).has.keyword('wontfound')).should.be.equal(false);
     });
 
   });
@@ -29,7 +30,7 @@ describe('Dependency scanning:', function () {
         dependencies = pluginScan(scannerRootPath);
 
     it('should return an array', function(){
-      (dependencies).should.be.an.Array;
+      (dependencies).should.be.an.instanceOf(Array);
     });
 
     if(dependencies.length>0){
@@ -50,10 +51,12 @@ describe('Dependency scanning:', function () {
           arrayContainsNonPlugin = true;
         }
       }
-      (arrayContainsPlugin).should.be.true;
-      (arrayContainsNonPlugin).should.be.false;
+      (arrayContainsPlugin).should.be.equal(true);
+      (arrayContainsNonPlugin).should.be.equal(false);
     });
 
   });
 
 });
+
+}());
