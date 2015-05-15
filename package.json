@@ -1,26 +1,26 @@
 {
   "name": "dependency-info",
   "version": "0.0.1",
-  "description": "Get your project dependency tree from NPM as much as from bower",
+  "description": "Get your project dependency tree from NPM as well as from bower",
   "main": "lib/main.js",
   "scripts": {
     "test": "mocha test",
     "install-g-dev": "npm pack; sudo npm install -g arin-cli-0.0.1.tgz; rm arin-cli-0.0.1.tgz"
   },
-  "bin": {
-    "arin": "bin/arin.js"
-  },
   "keywords": [
-    "arin",
-    "cli"
+    "dependency",
+    "npm",
+    "package",
+    "json",
+    "package.json",
+    "bower",
+    "bower.json"
   ],
   "author": "David Marchena",
   "license": "MIT",
-  "dependencies": {
-    "liftoff": "^2.0.3",
-    "minimist": "^1.1.1"
-  },
+  "dependencies": {},
   "devDependencies": {
+    "gulp": "^3.8.11",
     "mocha": "^2.2.4",
     "should": "^6.0.1"
   }
