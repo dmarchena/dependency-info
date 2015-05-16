@@ -2,7 +2,7 @@
   "name": "dependency-info",
   "version": "0.0.1",
   "description": "Get your project dependency tree from NPM as well as from bower",
-  "main": "lib/main.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "gulp test",
     "install-g-dev": "npm pack; sudo npm install -g arin-cli-0.0.1.tgz; rm arin-cli-0.0.1.tgz"
