@@ -6,14 +6,14 @@ var path = require('path'),
     scenarioDir = __dirname,
     testDataDir = path.join(scenarioDir, '/data/'),
     Dependency = require(path.join(rootDir, '/lib/dependency.js')),
-    search = require(path.join(rootDir, '/lib/search'));
+    dependenciesInfo = require(path.join(rootDir, '/lib/'));
     
 describe('NPM Dependency search:', function () {
 
   var dependencyWillFind = new Dependency('module-1', path.join(testDataDir, '/node_modules/module-1/')),
       dependencyWontFind = new Dependency('module-3', path.join(testDataDir, '/node_modules/module-3/')),
       searchRootPath = testDataDir,
-      dependencies = search(searchRootPath);
+      dependencies = dependenciesInfo({ path: searchRootPath });
 
   it('should return an array', function () {
     (dependencies).should.be.an.instanceOf(Array);
