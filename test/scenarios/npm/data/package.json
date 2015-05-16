@@ -1,13 +1,15 @@
 {
   "name": "main-module",
   "version": "1.0.0",
-  "description": "Module which uses arin",
+  "description": "The main project",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "module-1": "1.0.0"
+  },
   "devDependencies": {
-    "arin": "1.0.0",
-    "arin-plugin": "1.0.0",
-    "non-arin-plugin": "1.0.0"
+    "module-1": "1.0.0",
+    "module-2": "1.0.0",
+    "module-3": "1.0.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

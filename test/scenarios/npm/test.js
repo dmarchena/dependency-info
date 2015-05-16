@@ -6,39 +6,39 @@ var path = require('path'),
     scenarioDir = __dirname,
     testDataDir = path.join(scenarioDir, '/data/'),
     Dependency = require(path.join(rootDir, '/lib/dependency.js')),
-    pluginScan = require(path.join(rootDir, '/lib/search'));
+    search = require(path.join(rootDir, '/lib/search'));
     
 describe('NPM Dependency search:', function () {
 
-  var nonPlugin = new Dependency('non-arin-plugin', path.join(testDataDir, '/node_modules/non-arin-plugin/')),
-      plugin = new Dependency('arin-plugin', path.join(testDataDir, '/node_modules/arin-plugin/')),
-      scannerRootPath = testDataDir,
-      dependencies = pluginScan(scannerRootPath);
+  var dependencyWillFind = new Dependency('module-1', path.join(testDataDir, '/node_modules/module-1/')),
+      dependencyWontFind = new Dependency('module-3', path.join(testDataDir, '/node_modules/module-3/')),
+      searchRootPath = testDataDir,
+      dependencies = search(searchRootPath);
 
-  it('should return an array', function(){
+  it('should return an array', function () {
     (dependencies).should.be.an.instanceOf(Array);
   });
 
-  if(dependencies.length>0){
+  if (dependencies.length>0) {
     it('should return an array of Dependency objects', function () {
       (dependencies[0]).should.be.an.instanceOf(Dependency);
     });
   }
 
   it('should filter dependencies by its keywords', function () {
-    var arrayContainsPlugin = false,
-        arrayContainsNonPlugin = false;
+    var arrayContainsDependencyWithKeyword = false,
+        arrayContainsDependencyWithoutKeyword = false;
     for (var i=0, length = dependencies.length; i<length; i++) {
       var p = dependencies[i];
-      if (plugin.isEqualTo(p)) {
-        arrayContainsPlugin = true;
+      if (dependencyWillFind.isEqualTo(p)) {
+        arrayContainsDependencyWithKeyword = true;
       }
-      if (nonPlugin.isEqualTo(p)) {
-        arrayContainsNonPlugin = true;
+      if (dependencyWontFind.isEqualTo(p)) {
+        arrayContainsDependencyWithoutKeyword = true;
       }
     }
-    (arrayContainsPlugin).should.be.equal(true);
-    (arrayContainsNonPlugin).should.be.equal(false);
+    (arrayContainsDependencyWithKeyword).should.be.equal(true);
+    (arrayContainsDependencyWithoutKeyword).should.be.equal(false);
   });
 
 });
