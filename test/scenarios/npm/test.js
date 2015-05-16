@@ -38,16 +38,34 @@ describe('NPM Dependency search:', function () {
 
   it('should filter dependencies by its keywords', function () {
     var dependencyWillFind = module2,
-        dependencyWontFind = module3;
+        dependencyWontFind = module3,
+        filteredDependencies = dependenciesInfo({ 
+          path: searchRootPath,
+          filterBy: {
+            keyword: 'search-target'
+          }
+        });
 
-    (isDependencyInTree(dependencyWillFind, dependencies)).should.be.equal(true);
-    (isDependencyInTree(dependencyWontFind, dependencies)).should.be.equal(false);
+    (isDependencyInTree(dependencyWillFind, filteredDependencies)).should.be.equal(true);
+    (isDependencyInTree(dependencyWontFind, filteredDependencies)).should.be.equal(false);
   });
 
   it('should only retrieve production dependencies', function () {
     var dependencyWillFind = module1,
         dependencyWontFind = module2,
-        productionDependencies = dependenciesInfo({ path: searchRootPath, type: ['dependencies'] });
+        productionDependencies = dependenciesInfo({ 
+          path: searchRootPath, 
+          type: ['dependencies'] 
+        });
+
+    (isDependencyInTree(dependencyWillFind, productionDependencies)).should.be.equal(true);
+    (isDependencyInTree(dependencyWontFind, productionDependencies)).should.be.equal(false);
+  });
+
+  it('should only retrieve dev dependencies', function () {
+    var dependencyWillFind = module2,
+        dependencyWontFind = module1,
+        productionDependencies = dependenciesInfo({ path: searchRootPath, type: ['devDependencies'] });
 
     (isDependencyInTree(dependencyWillFind, productionDependencies)).should.be.equal(true);
     (isDependencyInTree(dependencyWontFind, productionDependencies)).should.be.equal(false);
