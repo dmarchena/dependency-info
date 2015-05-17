@@ -8,11 +8,20 @@ var path = require('path'),
     Dependency = require(path.join(rootDir, '/lib/dependency.js')),
     dependencyInfo = require(path.join(rootDir, '/lib/'));
     
-describe('DependencyTree', function () {
+describe('DependencyTree in NPM:', function () {
 
-  var module1 = new Dependency('module-1', path.join(testDataDir, '/node_modules/module-1/')),
-      module2 = new Dependency('module-2', path.join(testDataDir, '/node_modules/module-2/')),
-      module3 = new Dependency('module-3', path.join(testDataDir, '/node_modules/module-3/')),
+  var module1 = new Dependency(
+        path.join(testDataDir, '/node_modules/module-1/'),
+        'npm'),
+      module2 = new Dependency(
+        path.join(testDataDir, '/node_modules/module-2/'),
+        'npm'),
+      module2_1_1 = new Dependency(
+        path.join(testDataDir, '/node_modules/module-2/node_modules/module-2-1/node_modules/module-2-1-1/'),
+        'npm'),
+      module3 = new Dependency(
+        path.join(testDataDir, '/node_modules/module-3/'),
+        'npm'),
       searchRootPath = testDataDir,
       tree = dependencyInfo.createTree({ 
         path: searchRootPath 
@@ -32,15 +41,14 @@ describe('DependencyTree', function () {
         type: ['devDependencies'] 
       });
 
-  it('should be an array', function () {
-    (tree.dependencies).should.be.an.instanceOf(Array);
+  it('should return a tree of Dependency objects', function () {
+    (tree.dependencies[0]).should.be.an.instanceOf(Dependency);
   });
 
-  if (tree.dependencies.length>0) {
-    it('should return an array of Dependency objects', function () {
-      (tree.dependencies[0]).should.be.an.instanceOf(Dependency);
-    });
-  }
+  it('should return all dependencies', function () {
+    //console.log(tree.dependencies[1].dependencies[0].dependencies);
+    (tree.contains(module2_1_1)).should.be.equal(true);
+  });
 
   it('should filter dependencies by its keywords', function () {
     var dependencyWillFind = module2,
