@@ -19,6 +19,7 @@
   "author": "David Marchena",
   "license": "MIT",
   "dependencies": {
+    "bluebird": "^2.9.25",
     "extend": "^2.0.1"
   },
   "devDependencies": {

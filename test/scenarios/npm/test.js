@@ -23,20 +23,10 @@ describe('DependencyTree in NPM:', function () {
         path.join(testDataDir, '/node_modules/module-3/'),
         'npm'),
       searchRootPath = testDataDir,
-      tree = dependencyInfo.createTree({ 
+      tree = dependencyInfo.readTreeSync({ 
         path: searchRootPath 
       }),
-      filteredTree = dependencyInfo.createTree({ 
-        path: searchRootPath,
-        filterBy: {
-          keyword: 'search-target'
-        }
-      }),
-      prodTree = dependencyInfo.createTree({ 
-        path: searchRootPath, 
-        type: ['dependencies'] 
-      }),
-      devTree = dependencyInfo.createTree({ 
+      devTree = dependencyInfo.readTreeSync({ 
         path: searchRootPath, 
         type: ['devDependencies'] 
       });
@@ -52,15 +42,47 @@ describe('DependencyTree in NPM:', function () {
 
   it('should filter dependencies by its keywords', function () {
     var dependencyWillFind = module2,
+        dependencyWontFind = module3,
+        tree = dependencyInfo.readTreeSync({ 
+          path: searchRootPath,
+          filterBy: {
+            keyword: 'search-target'
+          }
+        });
+
+    (tree.contains(dependencyWillFind)).should.be.equal(true);
+    (tree.contains(dependencyWontFind)).should.be.equal(false);
+  });
+
+  it('should filter async dependencies by its keywords', function (done) {
+    var dependencyWillFind = module2,
         dependencyWontFind = module3;
 
-    (filteredTree.contains(dependencyWillFind)).should.be.equal(true);
-    (filteredTree.contains(dependencyWontFind)).should.be.equal(false);
+    dependencyInfo.readTree({ 
+      path: searchRootPath,
+      filterBy: {
+        keyword: 'search-target'
+      }
+    })
+    .then(function (tree) {
+      (tree.contains(dependencyWillFind)).should.be.equal(true);
+      (tree.contains(dependencyWontFind)).should.be.equal(false);
+      done();
+    })
+    .catch(function (err) {
+      console.log("Error reading dependency tree", err);
+    });
   });
 
   it('should only retrieve production dependencies', function () {
     var dependencyWillFind = module1,
-        dependencyWontFind = module2;
+        dependencyWontFind = module2,
+        prodTree;
+
+    prodTree = dependencyInfo.readTreeSync({ 
+      path: searchRootPath, 
+      type: ['dependencies'] 
+    });
 
     (prodTree.contains(dependencyWillFind)).should.be.equal(true);
     (prodTree.contains(dependencyWontFind)).should.be.equal(false);
