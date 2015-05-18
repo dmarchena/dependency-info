@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "gulp test",
-    "install-g-dev": "npm pack; sudo npm install -g arin-cli-0.0.1.tgz; rm arin-cli-0.0.1.tgz"
+    "test-travis": "./node_modules/istanbul/lib/cli.js cover gulp test"
   },
   "keywords": [
     "dependency",
@@ -23,9 +23,11 @@
     "extend": "^2.0.1"
   },
   "devDependencies": {
+    "coveralls": "^2.11.2",
     "gulp": "^3.8.11",
     "gulp-jshint": "^1.10.0",
     "gulp-mocha": "^2.0.1",
+    "istanbul": "^0.3.14",
     "jshint-stylish": "^1.0.2",
     "should": "^6.0.1"
   }
