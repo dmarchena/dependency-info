@@ -73,6 +73,18 @@ describe('DependencyTree in Bower:', function () {
     });
   });
 
+  it('should throw an Error if cannot find a dependency config file', function (done) {
+    dependencyInfo.readTree({ 
+      path: searchRootPath,
+      //type: ['devDependencies'],
+      manager: 'bower'
+    })
+    .catch(function (err) {
+      (err.message).should.startWith('File not found');
+      done();
+    });
+  });
+
 });
 
 }());
