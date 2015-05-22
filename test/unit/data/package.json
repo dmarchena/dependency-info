@@ -1,0 +1,34 @@
+{
+  "name": "dependency-info",
+  "version": "0.0.1",
+  "description": "Get your project dependency tree from NPM as well as from bower",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "gulp test",
+    "test-travis": "./node_modules/istanbul/lib/cli.js cover gulp test"
+  },
+  "keywords": [
+    "dependency",
+    "npm",
+    "package",
+    "json",
+    "package.json",
+    "bower",
+    "bower.json"
+  ],
+  "author": "David Marchena",
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^2.9.25",
+    "extend": "^2.0.1"
+  },
+  "devDependencies": {
+    "coveralls": "^2.11.2",
+    "gulp": "^3.8.11",
+    "gulp-jshint": "^1.10.0",
+    "gulp-mocha": "^2.0.1",
+    "istanbul": "^0.3.14",
+    "jshint-stylish": "^1.0.2",
+    "should": "^6.0.1"
+  }
+}
