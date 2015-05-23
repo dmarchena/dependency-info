@@ -22,6 +22,7 @@ gulp.task('test', ['lint'], function () {
     }));
 });
 
+/* istanbul ignore next */
 gulp.task('watch', function() {
   gulp.watch('lib/**/*.js', ['test']);
   gulp.watch('test/**/*.js', ['test']);
