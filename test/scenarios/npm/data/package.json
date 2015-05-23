@@ -8,7 +8,8 @@
   },
   "devDependencies": {
     "module-2": "1.0.0",
-    "module-3": "1.0.0"
+    "module-3": "1.0.0",
+    "module-2": "1.0.0" 
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
