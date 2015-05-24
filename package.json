@@ -20,7 +20,8 @@
   "license": "MIT",
   "dependencies": {
     "bluebird": "^2.9.25",
-    "extend": "^2.0.1"
+    "extend": "^2.0.1",
+    "stable": "^0.1.5"
   },
   "devDependencies": {
     "coveralls": "^2.11.2",
