@@ -32,9 +32,18 @@ describe('DependencyTree in NPM:', function () {
     (tree.dependencies[0]).should.be.an.instanceOf(Dependency);
   });
 
-  it('should return all dependencies', function () {
-    //console.log(tree.dependencies[1].dependencies[0].dependencies);
-    (tree.contains(chalk)).should.be.equal(true);
+  it('should return all dependencies if deep equal to true', function (done) {
+    dependencyInfo.readTree({ 
+      path: searchRootPath,
+      deep: true
+    })
+    .then(function (tree) {
+      (tree.contains(chalk)).should.be.equal(true);
+      done();
+    })
+    .catch(function (err) {
+      done(err);
+    });
   });
 
   it('should filter dependencies by its keywords', function () {
