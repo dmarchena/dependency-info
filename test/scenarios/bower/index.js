@@ -74,16 +74,28 @@ describe('DependencyTree in Bower:', function () {
     });
   });
 
-  it('should throw an Error with a unsupported manager', function (done) {
+  it('should fail the promise with an unsupported manager', function (done) {
     dependencyInfo.readTree({ 
       path: searchRootPath,
-      //type: ['devDependencies'],
       manager: 'foo'
     })
     .catch(function (err) {
       (err.message).should.startWith('Unknown manager');
       done();
     });
+  });
+
+  it('should throw an Error with a unsupported manager', function (done) {
+    var tree;
+    try {
+      tree = dependencyInfo.readTreeSync({ 
+        path: searchRootPath,
+        manager: 'foo'
+      });
+    } catch(err) {
+      (err.message).should.startWith('Unknown manager');
+      done();
+    }
   });
 
 });
