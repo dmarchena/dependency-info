@@ -31,13 +31,23 @@ describe('DependencyTree in Bower:', function () {
     (tree.dependencies[0]).should.be.an.instanceOf(Dependency);
   });
 
-  it('should return all dependencies', function () {
-    //console.log(tree.dependencies[1].dependencies[0].dependencies);
-    (tree.contains(jquery)).should.be.equal(true);
+  it('should return all dependencies if deep equal to true', function (done) {
+    dependencyInfo.readTree({ 
+      path: searchRootPath,
+      deep: true,
+      manager: 'bower'
+    })
+    .then(function (tree) {
+      (tree.contains(jquery)).should.be.equal(true);
+      done();
+    })
+    .catch(function (err) {
+      done(err);
+    });
   });
 
   it('should filter dependencies by its keywords', function () {
-    var dependencyWillFind = jquery,
+    var dependencyWillFind = jqueryFileUpload,
         dependencyWontFind = bootstrap,
         tree = dependencyInfo.readTreeSync({ 
           path: searchRootPath,
@@ -53,7 +63,7 @@ describe('DependencyTree in Bower:', function () {
   });
 
   it('should filter async dependencies by its keywords', function (done) {
-    var dependencyWillFind = jquery,
+    var dependencyWillFind = jqueryFileUpload,
         dependencyWontFind = bootstrap;
 
     dependencyInfo.readTree({ 
@@ -75,13 +85,35 @@ describe('DependencyTree in Bower:', function () {
   });
 
   it('should throw an Error with a unsupported manager', function (done) {
+    var tree;
+    try {
+      tree = dependencyInfo.readTreeSync({ 
+        path: searchRootPath,
+        manager: 'foo'
+      });
+    } catch(err) {
+      (err.message).should.startWith('Unknown manager');
+      done();
+    }
+  });
+
+  it('should fail the promise with an unsupported manager', function (done) {
     dependencyInfo.readTree({ 
       path: searchRootPath,
-      //type: ['devDependencies'],
       manager: 'foo'
     })
     .catch(function (err) {
       (err.message).should.startWith('Unknown manager');
+      done();
+    });
+  });
+
+  it('should fail the promise with an invalid path', function (done) {
+    dependencyInfo.readTree({ 
+      path: scenarioDir,
+      manager: 'npm'
+    })
+    .catch(function (err) {
       done();
     });
   });

@@ -18,7 +18,8 @@ gulp.task('test', ['lint'], function () {
       reporter: 'spec',
       globals: {
         should: require('should')
-      }
+      },
+      timeout: 3000
     }));
 });
 
