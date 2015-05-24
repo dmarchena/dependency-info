@@ -74,17 +74,6 @@ describe('DependencyTree in Bower:', function () {
     });
   });
 
-  it('should fail the promise with an unsupported manager', function (done) {
-    dependencyInfo.readTree({ 
-      path: searchRootPath,
-      manager: 'foo'
-    })
-    .catch(function (err) {
-      (err.message).should.startWith('Unknown manager');
-      done();
-    });
-  });
-
   it('should throw an Error with a unsupported manager', function (done) {
     var tree;
     try {
@@ -96,6 +85,27 @@ describe('DependencyTree in Bower:', function () {
       (err.message).should.startWith('Unknown manager');
       done();
     }
+  });
+
+  it('should fail the promise with an unsupported manager', function (done) {
+    dependencyInfo.readTree({ 
+      path: searchRootPath,
+      manager: 'foo'
+    })
+    .catch(function (err) {
+      (err.message).should.startWith('Unknown manager');
+      done();
+    });
+  });
+
+  it('should fail the promise with an invalid path', function (done) {
+    dependencyInfo.readTree({ 
+      path: scenarioDir,
+      manager: 'npm'
+    })
+    .catch(function (err) {
+      done();
+    });
   });
 
 });
