@@ -6,29 +6,26 @@ var path = require('path'),
     scenarioDir = __dirname,
     testDataDir = path.join(scenarioDir, '/data/'),
     Dependency = require(path.join(rootDir, '/lib/dependency.js')),
+    dependencyFactory = require(path.join(rootDir, '/lib/dependency-factory.js')),
     dependencyInfo = require(path.join(rootDir, '/lib/'));
     
 describe('DependencyTree in NPM:', function () {
 
-  var module1 = new Dependency(
-        path.join(testDataDir, '/node_modules/module-1/'),
+  var bluebird = dependencyFactory.createDependency(
+        path.join(testDataDir, '/node_modules/bluebird/'),
         'npm'),
-      module2 = new Dependency(
-        path.join(testDataDir, '/node_modules/module-2/'),
+      gulp = dependencyFactory.createDependency(
+        path.join(testDataDir, '/node_modules/gulp/'),
         'npm'),
-      module2_1_1 = new Dependency(
-        path.join(testDataDir, '/node_modules/module-2/node_modules/module-2-1/node_modules/module-2-1-1/'),
+      chalk = dependencyFactory.createDependency(
+        path.join(testDataDir, '/node_modules/gulp/node_modules/gulp-util/node_modules/chalk/'),
         'npm'),
-      module3 = new Dependency(
-        path.join(testDataDir, '/node_modules/module-3/'),
+      extend = dependencyFactory.createDependency(
+        path.join(testDataDir, '/node_modules/extend/'),
         'npm'),
       searchRootPath = testDataDir,
       tree = dependencyInfo.readTreeSync({ 
         path: searchRootPath 
-      }),
-      devTree = dependencyInfo.readTreeSync({ 
-        path: searchRootPath, 
-        type: ['devDependencies'] 
       });
 
   it('should return a tree of Dependency objects', function () {
@@ -37,16 +34,16 @@ describe('DependencyTree in NPM:', function () {
 
   it('should return all dependencies', function () {
     //console.log(tree.dependencies[1].dependencies[0].dependencies);
-    (tree.contains(module2_1_1)).should.be.equal(true);
+    (tree.contains(chalk)).should.be.equal(true);
   });
 
   it('should filter dependencies by its keywords', function () {
-    var dependencyWillFind = module2,
-        dependencyWontFind = module3,
+    var dependencyWillFind = extend,
+        dependencyWontFind = bluebird,
         tree = dependencyInfo.readTreeSync({ 
           path: searchRootPath,
           filterBy: {
-            keyword: 'search-target'
+            keyword: 'clone'
           }
         });
 
@@ -55,13 +52,13 @@ describe('DependencyTree in NPM:', function () {
   });
 
   it('should filter async dependencies by its keywords', function (done) {
-    var dependencyWillFind = module2,
-        dependencyWontFind = module3;
+    var dependencyWillFind = extend,
+        dependencyWontFind = bluebird;
 
     dependencyInfo.readTree({ 
       path: searchRootPath,
       filterBy: {
-        keyword: 'search-target'
+        keyword: 'clone'
       }
     })
     .then(function (tree) {
@@ -75,8 +72,8 @@ describe('DependencyTree in NPM:', function () {
   });
 
   it('should only retrieve production dependencies', function () {
-    var dependencyWillFind = module1,
-        dependencyWontFind = module2,
+    var dependencyWillFind = bluebird,
+        dependencyWontFind = gulp,
         prodTree;
 
     prodTree = dependencyInfo.readTreeSync({ 
@@ -88,12 +85,19 @@ describe('DependencyTree in NPM:', function () {
     (prodTree.contains(dependencyWontFind)).should.be.equal(false);
   });
 
-  it('should only retrieve dev dependencies', function () {
-    var dependencyWillFind = module2,
-        dependencyWontFind = module1;
-
-    (devTree.contains(dependencyWillFind)).should.be.equal(true);
-    (devTree.contains(dependencyWontFind)).should.be.equal(false);
+  it('should only retrieve dev dependencies', function (done) {
+    var dependencyWillFind = gulp,
+        dependencyWontFind = bluebird;
+        
+    dependencyInfo.readTree({ 
+      path: searchRootPath, 
+      type: ['devDependencies']
+    })
+    .then(function(devTree){
+      (devTree.contains(dependencyWillFind)).should.be.equal(true);
+      (devTree.contains(dependencyWontFind)).should.be.equal(false);
+      done();
+    });
   });
 
 });

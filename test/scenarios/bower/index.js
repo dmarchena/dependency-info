@@ -6,17 +6,18 @@ var path = require('path'),
     scenarioDir = __dirname,
     testDataDir = path.join(scenarioDir, '/data/'),
     Dependency = require(path.join(rootDir, '/lib/dependency.js')),
+    dependencyFactory = require(path.join(rootDir, '/lib/dependency-factory.js')),
     dependencyInfo = require(path.join(rootDir, '/lib/'));
     
 describe('DependencyTree in Bower:', function () {
 
-  var jquery = new Dependency(
+  var jquery = dependencyFactory.createDependency(
         path.join(testDataDir, '/bower_components/jquery/'),
         'bower'),
-      bootstrap = new Dependency(
+      bootstrap = dependencyFactory.createDependency(
         path.join(testDataDir, '/bower_components/bootstrap/'),
         'bower'),
-      jqueryFileUpload = new Dependency(
+      jqueryFileUpload = dependencyFactory.createDependency(
         path.join(testDataDir, '/bower_components/jquery-file-upload/'),
         'bower'),
       searchRootPath = testDataDir,
@@ -70,18 +71,6 @@ describe('DependencyTree in Bower:', function () {
     })
     .catch(function (err) {
       console.log("Error reading dependency tree", err);
-    });
-  });
-
-  it('should throw an Error if cannot find a dependency config file', function (done) {
-    dependencyInfo.readTree({ 
-      path: searchRootPath,
-      //type: ['devDependencies'],
-      manager: 'bower'
-    })
-    .catch(function (err) {
-      (err.message).should.startWith('File not found');
-      done();
     });
   });
 
