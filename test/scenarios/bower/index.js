@@ -80,7 +80,7 @@ describe('DependencyTree in Bower:', function () {
       done();
     })
     .catch(function (err) {
-      console.log("Error reading dependency tree", err);
+      done(err);
     });
   });
 
@@ -115,6 +115,28 @@ describe('DependencyTree in Bower:', function () {
     })
     .catch(function (err) {
       done();
+    });
+  });
+
+  describe('DependencyTree.list()', function () {
+    it('should return an sorted list of dependencies with selected info from their json file', function (done) {
+      dependencyInfo.readTree({ 
+        path: searchRootPath,
+        deep: true,
+        manager: 'bower'
+      })
+      .then(function (tree) {
+        var list = tree.list(['name', 'main'], 'asc');
+        (list.length).should.be.equal(8);
+        (list[0].name).should.be.equal('blueimp-canvas-to-blob');
+        (list[0].main).should.be.equal('js/canvas-to-blob.js');
+        list = tree.list(null, 'desc');
+        (list[0].name).should.be.equal('font-awesome');
+        done();
+      })
+      .catch(function (err) {
+        done(err);
+      });
     });
   });
 
