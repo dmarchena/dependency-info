@@ -7,6 +7,10 @@
     "test": "gulp test",
     "test-travis": "./node_modules/istanbul/lib/cli.js cover gulp test"
   },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:dmarchena/dependency-info.git"
+  },
   "keywords": [
     "dependency",
     "npm",
@@ -16,7 +20,10 @@
     "bower",
     "bower.json"
   ],
-  "author": "David Marchena",
+  "author": {
+    "name": "David Marchena",
+    "email": "dvmarchena@gmail.com"
+  },
   "license": "MIT",
   "dependencies": {
     "bluebird": "^2.9.25",
