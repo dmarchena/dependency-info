@@ -12,7 +12,7 @@ Get your project dependency tree from NPM as well as from bower
 
 ## Usage
 
-First af all, you have to retrieve your dependency tree.
+First of all, you have to retrieve your dependency tree.
 
 ### The async way
 
