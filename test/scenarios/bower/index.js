@@ -126,9 +126,10 @@ describe('DependencyTree in Bower:', function () {
         manager: 'bower'
       })
       .then(function (tree) {
-        var list = tree.list(['name', 'main'], 'asc');
+        var list = tree.list(['name', 'path', 'main'], 'asc');
         (list.length).should.be.equal(8);
         (list[0].name).should.be.equal('blueimp-canvas-to-blob');
+        (list[0].path).should.endWith('/test/scenarios/bower/data/bower_components/blueimp-canvas-to-blob');
         (list[0].main).should.be.equal('js/canvas-to-blob.js');
         list = tree.list(null, 'desc');
         (list[0].name).should.be.equal('font-awesome');
