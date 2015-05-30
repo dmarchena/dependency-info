@@ -4,7 +4,7 @@
 [![Dependency Status](https://david-dm.org/dmarchena/dependency-info.svg)](https://david-dm.org/dmarchena/dependency-info)
 [![devDependency Status](https://david-dm.org/dmarchena/dependency-info/dev-status.svg)](https://david-dm.org/dmarchena/dependency-info#info=devDependencies)
 
-Get your project dependency tree from NPM as well as from bower
+Read useful info from your dependency tree. It supports both npm and bower.
 
 ## Install
 
@@ -12,7 +12,7 @@ Get your project dependency tree from NPM as well as from bower
 
 ## Usage
 
-First of all, you have to retrieve your dependency tree.
+First af all, you have to retrieve your dependency tree.
 
 ### The async way
 
@@ -64,25 +64,62 @@ filterBy:
 
 This method looks over the tree and returns an ordered array of key value objects filled with the specified fields, which will be taken from each dependency json file.
 
-`fields` {Array} The fields to get from json files  
-`order` {String} Sort dependencies in ascending ('asc') or descending order ('desc')
+`fields` {Array}  
+Property names form json files. You can also use 'path', which will contain the full path to dependency directory.  
+`order` {String}  
+Sort dependencies in ascending ('asc') or descending order ('desc')
 
 ## Examples
 
-### Logging asynchronously
+### Case 1: Getting path to main JS of your gulp plugins
 
 ```
 var dependencyInfo = require('dependency-info');
 dependencyInfo.readTree({
-	manager: 'npm'
+	manager: 'npm',
+	filterBy: {
+	    keyword: 'gulpplugin'
+	}
 })
 .then(function (tree) {
-	var list = tree.list(['name', 'version'], 'asc');
-	console.log(list);
+	var list = tree.list(['name', 'path', 'main', 'files'], 'asc');
 })
 ```
 
-### Logging synchronously
+As a result, `list` and the following structure will be alike.
+
+```
+[ { name: 'gulp-autoprefixer',
+    path: '/var/my-project/node_modules/gulp-autoprefixer',
+    main: undefined,
+    files: [ 'index.js' ] },
+  { name: 'gulp-copy',
+    path: '/var/my-project/node_modules/gulp-copy',
+    main: 'index.js',
+    files: undefined },
+  { name: 'gulp-minify-css',
+    path: '/var/my-project/node_modules/gulp-minify-css',
+    main: undefined,
+    files: [ 'index.js' ] },
+  { name: 'gulp-prettify',
+    path: '/var/my-project/node_modules/gulp-prettify',
+    main: 'index.js',
+    files: undefined },
+  { name: 'gulp-rename',
+    path: '/var/my-project/node_modules/gulp-rename',
+    main: './index.js',
+    files: [ 'index.js' ] },
+  { name: 'gulp-sass',
+    path: '/var/my-project/node_modules/gulp-sass',
+    main: 'index.js',
+    files: undefined },
+  { name: 'gulp-strip-css-comments',
+    path: '/var/my-project/node_modules/gulp-strip-css-comments',
+    main: undefined,
+    files: [ 'index.js' ] } ]
+```
+
+### Case 2: Logging version info synchronously
 
 ```
 var dependencyInfo = require('dependency-info')
@@ -95,9 +132,7 @@ list = tree.list(['name', 'version'], 'asc');
 console.log(list);
 ```
 
-### Result
-
-Both of them will output a message like this:
+This code will output a message like this:
 
 ```
 [ { name: 'connect-livereload', version: '0.5.3' },

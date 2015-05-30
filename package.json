@@ -1,7 +1,7 @@
 {
   "name": "dependency-info",
-  "version": "0.3.0",
-  "description": "Get your project dependency tree from NPM as well as from bower",
+  "version": "0.3.1",
+  "description": "Get your project dependency tree from npm as well as from bower",
   "main": "lib/index.js",
   "scripts": {
     "test": "gulp test",
@@ -13,6 +13,7 @@
   },
   "keywords": [
     "dependency",
+    "dependencies",
     "npm",
     "package",
     "json",
