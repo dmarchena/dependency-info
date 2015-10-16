@@ -28,7 +28,7 @@
   "license": "MIT",
   "dependencies": {
     "bluebird": "^2.9.25",
-    "extend": "^2.0.1",
+    "extend": "^3.0.0",
     "stable": "^0.1.5"
   },
   "devDependencies": {
@@ -38,6 +38,6 @@
     "gulp-mocha": "^2.0.1",
     "istanbul": "^0.3.14",
     "jshint-stylish": "^2.0.0",
-    "should": "^6.0.1"
+    "should": "^7.1.0"
   }
 }
