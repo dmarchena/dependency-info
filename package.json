@@ -1,6 +1,6 @@
 {
   "name": "dependency-info",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Get your project dependency tree from npm as well as from bower",
   "main": "lib/index.js",
   "scripts": {
