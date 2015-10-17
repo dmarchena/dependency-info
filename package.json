@@ -36,7 +36,7 @@
     "gulp": "^3.8.11",
     "gulp-jshint": "^1.10.0",
     "gulp-mocha": "^2.0.1",
-    "istanbul": "^0.3.14",
+    "istanbul": "^0.4.0",
     "jshint-stylish": "^2.0.0",
     "should": "^7.1.0"
   }
