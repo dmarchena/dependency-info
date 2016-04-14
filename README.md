@@ -6,6 +6,8 @@
 
 Read useful info from your dependency tree. It supports both npm and bower.
 
+:warning: **This package has been discontinued and deprecated.**
+
 ## Install
 
     npm install dependency-info
